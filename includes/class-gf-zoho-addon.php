@@ -29,6 +29,52 @@ class GFZohoSyncAddOn extends GFAddOn {
         }
         return self::$_instance;
     }
+ /**
+     * Define form settings fields
+     */
+    public function form_settings_fields($form) {
+        $this->log_debug(__METHOD__ . "(): Building form settings fields for form #{$form['id']}");
+        return [
+            [
+                'title'  => esc_html__('Zoho Sync Settings', 'gf-zoho-sync'),
+                'fields' => [
+                    [
+                        'type'    => 'feed_list',
+                        'tooltip' => esc_html__('Configure feeds to sync form entries with Zoho.', 'gf-zoho-sync'),
+                        'label'   => esc_html__('Zoho Feeds', 'gf-zoho-sync')
+                    ],
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Get menu icon for add-on
+     */
+    public function get_menu_icon() {
+        return 'dashicons-admin-generic';
+    }
+
+    /**
+     * Define feed list columns
+     */
+    public function feed_list_columns() {
+        return [
+            'feed_name' => esc_html__('Name', 'gf-zoho-sync'),
+            'module'    => esc_html__('Zoho Module', 'gf-zoho-sync'),
+        ];
+    }
+
+    /**
+     * Get module column value for feed list
+     */
+    public function get_column_value_module($feed) {
+        return rgar($feed['meta'], 'module');
+    }
+    // END NEW METHODS ↑
+
+    // Don't add them after all existing methods - make sure they're inside the class but not inside any other method
+}
 
     /**
      * Initialize the add-on
