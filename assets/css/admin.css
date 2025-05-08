@@ -1,3 +1,90 @@
+/**
+ * Gravity Forms Zoho Sync - Admin Styles
+ */
+
 /* Admin settings page */
-#gform_zoho_sync { padding: 20px; font-family: sans-serif; }
-#gform_zoho_sync .button { margin-top: 1em; }
+#gform_zoho_sync {
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+/* Buttons on settings page */
+#gform_zoho_sync .button {
+    margin-top: 1em;
+}
+
+/* Field mapping styles */
+.mapping-row {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    border: 1px solid #e5e5e5;
+}
+
+/* Field select elements */
+.gf-field-select,
+.zoho-field-select {
+    min-width: 200px;
+    margin-right: 10px;
+}
+
+/* Remove mapping button */
+.remove-mapping {
+    color: #a00;
+    text-decoration: none;
+}
+
+.remove-mapping:hover {
+    color: #dc3232;
+}
+
+/* Cards on settings page */
+.card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+    margin-top: 20px;
+    padding: 1px 20px 20px;
+}
+
+.card h2 {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+/* Connection status indicators */
+.connection-status {
+    font-weight: bold;
+}
+
+.connection-status.success {
+    color: green;
+}
+
+.connection-status.error {
+    color: red;
+}
+
+/* Test connection button area */
+#test-connection-area {
+    margin: 15px 0;
+}
+
+/* Loading spinners */
+.gf-zoho-loading {
+    display: inline-block;
+}
+
+/* Mobile responsive adjustments */
+@media screen and (max-width: 782px) {
+    .gf-field-select,
+    .zoho-field-select {
+        min-width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .mapping-row {
+        padding: 15px;
+    }
+}
