@@ -166,4 +166,82 @@ jQuery(function($) {
 
     // Before saving feed, serialize mappings to textarea
     if ($('#gform_submit_button').length) {
-        console
+        console.log('GF Zoho Sync: Setting up feed form submission handler');
+        
+        $('#gform_submit_button').closest('form').on('submit', function() {
+            console.log('GF Zoho Sync: Processing feed form submission');
+            
+            var mappings = [];
+            mappingWrap.find('.mapping-row').each(function() {
+                var gf = $(this).find('.gf-field-select').val();
+                var zoho = $(this).find('.zoho-field-select').val();
+                
+                if (gf && zoho) {
+                    mappings.push({gf_id: gf, zoho: zoho});
+                    console.log('GF Zoho Sync: Adding mapping - GF field ' + gf + ' to Zoho field ' + zoho);
+                } else {
+                    console.warn('GF Zoho Sync: Skipping incomplete mapping row');
+                }
+            });
+            
+            console.log('GF Zoho Sync: Saving ' + mappings.length + ' field mappings');
+            $('textarea[name="field_mappings"]').val(JSON.stringify(mappings));
+        });
+    }
+    
+    // Initialize API type and module handling
+    if ($('#gaddon-setting-row-api_type select').length && $('#gaddon-setting-row-module select').length) {
+        console.log('GF Zoho Sync: Setting up API type and module change handlers');
+        
+        // When API type changes, may need to adjust module list
+        $('#gaddon-setting-row-api_type select').on('change', function() {
+            var apiType = $(this).val();
+            console.log('GF Zoho Sync: API type changed to ' + apiType);
+            
+            // Load fields if module already selected
+            var module = $('#gaddon-setting-row-module select').val();
+            if (module) {
+                gfZohoSync.loadZohoFields(module, apiType);
+            }
+        });
+        
+        // When module changes, load its fields
+        $('#gaddon-setting-row-module select').on('change', function() {
+            var module = $(this).val();
+            var apiType = $('#gaddon-setting-row-api_type select').val();
+            
+            console.log('GF Zoho Sync: Module changed to ' + module + ' (' + apiType + ')');
+            
+            if (module) {
+                gfZohoSync.loadZohoFields(module, apiType);
+            }
+        });
+        
+        // Add test connection button
+        $('#gaddon-setting-row-api_type').after(
+            '<tr><th></th><td><button type="button" id="test-connection" ' +
+            'class="button-secondary">Test Zoho Connection</button></td></tr>'
+        );
+        
+        $('#test-connection').on('click', function(e) {
+            e.preventDefault();
+            gfZohoSync.testConnection();
+        });
+        
+        // Initialize fields if module is already selected
+        var initialModule = $('#gaddon-setting-row-module select').val();
+        var initialApiType = $('#gaddon-setting-row-api_type select').val();
+        
+        if (initialModule) {
+            console.log('GF Zoho Sync: Initializing fields for module ' + initialModule + ' (' + initialApiType + ')');
+            gfZohoSync.loadZohoFields(initialModule, initialApiType);
+        }
+    }
+});
+
+// Open Zoho OAuth in a popup
+jQuery(document).on('click', '#gf-zoho-connect', function(e) {
+    console.log('GF Zoho Sync: Opening OAuth popup');
+    e.preventDefault();
+    window.open(this.href, 'ZohoOAuth', 'width=600,height=700');
+});
