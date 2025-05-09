@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS `wp_gf_zoho_map`;
